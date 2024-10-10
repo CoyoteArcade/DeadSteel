@@ -4,15 +4,31 @@ using UnityEngine;
 
 public class AttributesManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    //public means thatb these variables can be accessed or modified by outside scripts
+    public int health;
+    public int attack;
+    public int armor;
+    public float critDamage = 1.5f;
+    public float critChance = 0.5f;
+
+    public void TakeDamage(int amount)
     {
-        
+        health -= amount - (amount * armor/100);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void DealDamage(GameObject target)
     {
-        
+        var atm = target.GetComponent<AttributesManager>();
+        if(atm != null)
+        {
+            float totalDamage = attack;
+
+            //count RNG chance
+            if(Random.Range(0f, 1f) < critChance)
+            {
+                totalDamage *= critDamage;
+            }
+            atm.TakeDamage(attack);
+        }
     }
 }
