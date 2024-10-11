@@ -27,7 +27,7 @@ public class EnemyAi : MonoBehaviour
 
     private void Awake()
     {
-        player = GameObject.Fint("PlayerObj").transform; //playerObj is what player is called; can be changed
+        Player = GameObject.Find("PlayerObj").transform; //playerObj is what player is called; can be changed
         agent = GetComponent<NavMeshAgent>();
     }
 
@@ -79,7 +79,7 @@ public class EnemyAi : MonoBehaviour
 
 private void ChasePlayer()
     {
-        agent.SetDestination(player.position);
+        agent.SetDestination(Player.position);
     }
 
     private void AttackPlayer()
@@ -87,7 +87,7 @@ private void ChasePlayer()
         //Make sure enemy doesn't move
         agent.SetDestination(transform.position);
 
-        transform.LookAt(player); //ehen enemy attacks. looks at player
+        transform.LookAt(Player); //ehen enemy attacks. looks at player
 
         //check to see if it has nota lready attacked
         if (!alreadyAttacked)
@@ -95,15 +95,15 @@ private void ChasePlayer()
             //Attack code here... soon add melee attacks
             //
             Rigidbody rb = Instantiate(projectile, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
-            rb.AddForce(transform.forward * 32f, ForceMode.Impluse);
-            rb.AddForce(transform.up * 8f, ForceMode.Impluse);
+            rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
+            rb.AddForce(transform.up * 8f, ForceMode.Impulse);
 
 
             //
 
 
             alreadyAttacked = true;
-            invoke(nameof(ResetAttack), timeBetweenAttacks);
+            Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
     }
 
@@ -118,4 +118,7 @@ private void ChasePlayer()
     }
 
     private void DestroyEnemy()
+    {
+
+    }
 }
