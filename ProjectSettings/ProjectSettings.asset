@@ -4,7 +4,7 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 24
-  productGUID: aaafbacb0919db94ea6b43e5aa187656
+  productGUID: 2333e0bacfbae434eaa7227f1baae9b5
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
@@ -720,11 +720,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: 
+  cloudProjectId: 3e4c878e-dc63-4420-8e5c-078b25137426
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: 
-  organizationId: 
+  projectName: DeadSteel
+  organizationId: maple_23
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   playerDataPath: 
