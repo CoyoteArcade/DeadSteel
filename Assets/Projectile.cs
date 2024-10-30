@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    public float speed = 10f;   // Speed of the projectile
+    public float speed = 20f;   // Speed of the projectile
     public int damage = 10;     // Damage dealt by the projectile
 
     void Update()
@@ -16,7 +16,7 @@ public class Projectile : MonoBehaviour
         // Check if the projectile hits an enemy
         if (other.CompareTag("Enemy"))
         {
-            Enemy enemy = other.GetComponent<Enemy>();
+            EnemyHealth enemy = other.GetComponent<EnemyHealth>();
             if (enemy != null)
             {
                 enemy.TakeDamage(damage); // Apply damage to the enemy
