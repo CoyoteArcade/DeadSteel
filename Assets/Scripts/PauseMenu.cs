@@ -1,14 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-    public GameObject pauseMenu;
-    private bool isPaused; // Tracks the current pause state
+    public GameObject pauseMenu; // Assign the Pause Menu UI Canvas in the Inspector
+    private bool isPaused = false; // Tracks the current pause state
 
-    // Start is called before the first frame update
     void Start()
     {
         if (pauseMenu == null)
@@ -19,15 +16,13 @@ public class PauseMenu : MonoBehaviour
         pauseMenu.SetActive(false); // Ensure the pause menu is hidden at the start
         Cursor.lockState = CursorLockMode.Locked; // Lock the cursor at the start
         Cursor.visible = false; // Hide the cursor at the start
-        isPaused = false; // Ensure the game starts unpaused
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (isPaused) // Check using the isPaused variable
+            if (isPaused)
             {
                 ResumeGame();
             }
@@ -42,7 +37,6 @@ public class PauseMenu : MonoBehaviour
     {
         if (isPaused) return; // Prevent multiple calls
 
-        Debug.Log("Game Paused");
         isPaused = true; // Set pause state to true
         Time.timeScale = 0f; // Freeze time
         pauseMenu.SetActive(true); // Show pause menu
@@ -52,14 +46,11 @@ public class PauseMenu : MonoBehaviour
 
     public void ResumeGame()
     {
-        if (!isPaused) return; // Prevent multiple calls
-
-        Debug.Log("Game Resumed");
-        isPaused = false; // Set pause state to false
-        Time.timeScale = 1f; // Resume time
-        pauseMenu.SetActive(false); // Hide pause menu
-        Cursor.lockState = CursorLockMode.Locked; // Lock the cursor
-        Cursor.visible = false; // Hide the cursor
+        pauseMenu.SetActive(false);
+        isPaused = false; 
+        Time.timeScale = 1f;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     public void ReturnToMenu()

@@ -13,6 +13,7 @@ public class EnemyHealth : MonoBehaviour
         currentHealth = maxHealth;
     }
 
+    /*
     // Update is called once per frame
     void Update()
     {
@@ -22,6 +23,7 @@ public class EnemyHealth : MonoBehaviour
             TakeDamage(10);
         }
     }
+    */
 
     public void TakeDamage(int damage)
     {
