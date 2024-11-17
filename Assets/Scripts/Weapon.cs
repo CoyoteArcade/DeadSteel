@@ -7,6 +7,13 @@ public class Weapon : MonoBehaviour
 
     void Update()
     {
+        // Prevent shooting when the game is paused
+        if (Time.timeScale == 0f)
+        {
+            return;
+        }
+
+        // Handle shooting input
         if (Input.GetButtonDown("Fire1"))
         {
             Shoot();
@@ -17,6 +24,6 @@ public class Weapon : MonoBehaviour
     {
         // Instantiate the projectile at the fire point's position and rotation
         GameObject projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
+        Debug.Log("Projectile fired!");
     }
 }
-
