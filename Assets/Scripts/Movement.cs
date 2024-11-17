@@ -31,6 +31,13 @@ public class Movement : MonoBehaviour
 
     void Update()
     {
+        // Disable movement and camera controls if the game is paused
+        if (Time.timeScale == 0f) 
+        {
+            return;
+        }
+
+        // Movement logic
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 right = transform.TransformDirection(Vector3.right);
 
@@ -59,7 +66,6 @@ public class Movement : MonoBehaviour
             characterController.height = crouchHeight;
             walkSpeed = crouchSpeed;
             runSpeed = crouchSpeed;
-
         }
         else
         {
@@ -70,6 +76,7 @@ public class Movement : MonoBehaviour
 
         characterController.Move(moveDirection * Time.deltaTime);
 
+        // Camera rotation logic
         if (canMove)
         {
             rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
