@@ -4,33 +4,29 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public int enemyHealth = 100; // Set the initial health of the enemy
+    // Base stats for the enemy
+    public float baseHealth = 100f;
+    public float baseDamage = 10f;
+    public float baseSpeed = 5f;
 
-    // Update method to simulate damage for testing purposes
+    // Scaling rates
+    public float healthIncreaseRate = 2f;
+    public float damageIncreaseRate = 0.5f;
+    public float speedIncreaseRate = 0.1f;
+
+    private float elapsedTime;
+
     void Update()
     {
-        if (enemyHealth <= 0)
-        {
-            DestroyEnemy();
-        }
-    }
+        // Update elapsed time
+        elapsedTime = Time.time;
 
-    // Method to apply damage to the enemy
-    public void TakeDamage(int damage)
-    {
-        enemyHealth -= damage;
+        // Update stats dynamically (not strictly necessary here if only referenced elsewhere)
+        float currentHealth = baseHealth + (elapsedTime * healthIncreaseRate);
+        float currentDamage = baseDamage + (elapsedTime * damageIncreaseRate);
+        float currentSpeed = baseSpeed + (elapsedTime * speedIncreaseRate);
 
-        if (enemyHealth <= 0)
-        {
-            DestroyEnemy();
-        }
-    }
-
-    // Method to destroy the enemy when health reaches 0
-    private void DestroyEnemy()
-    {
-        Destroy(gameObject);
-        Debug.Log("Enemy destroyed");
+        Debug.Log($"Enemy Stats - Health: {currentHealth}, Damage: {currentDamage}, Speed: {currentSpeed}");
     }
 }
 
