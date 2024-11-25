@@ -6,11 +6,13 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     public Camera playerCamera;
-    public float walkSpeed = 6f;
-    public float runSpeed = 12f;
-    public float jumpPower = 7f;
-    public float gravity = 10f;
-    public float lookSpeed = 2f;
+    public float walkSpeed = 2f;
+    public float runSpeed = 6f;
+    public float jumpPower = 7f; // Normal jump power
+    public float antiGravityJumpPower = 9f; // Slightly higher jump power during anti-gravity
+    public float gravity = 7f; // Normal gravity
+    public float reducedGravity = 7f; // Reduced gravity during anti-gravity (lets player stay in air longer)
+    public float lookSpeed = 3f;
     public float lookXLimit = 45f;
     public float defaultHeight = 2f;
     public float crouchHeight = 1f;
@@ -21,18 +23,22 @@ public class Movement : MonoBehaviour
     private CharacterController characterController;
 
     private bool canMove = true;
+    private bool isAntiGravity = false; // Flag for reduced gravity phase
 
     void Start()
     {
         characterController = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        // Start the anti-gravity timer after an initial delay
+        StartCoroutine(AntiGravityCycle());
     }
 
     void Update()
     {
         // Disable movement and camera controls if the game is paused
-        if (Time.timeScale == 0f) 
+        if (Time.timeScale == 0f)
         {
             return;
         }
@@ -49,7 +55,8 @@ public class Movement : MonoBehaviour
 
         if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
         {
-            moveDirection.y = jumpPower;
+            // Apply different jump power depending on anti-gravity state
+            moveDirection.y = isAntiGravity ? antiGravityJumpPower : jumpPower;
         }
         else
         {
@@ -58,7 +65,8 @@ public class Movement : MonoBehaviour
 
         if (!characterController.isGrounded)
         {
-            moveDirection.y -= gravity * Time.deltaTime;
+            // Apply reduced gravity or normal gravity based on the state
+            moveDirection.y -= (isAntiGravity ? reducedGravity : gravity) * Time.deltaTime;
         }
 
         if (Input.GetKey(KeyCode.R) && canMove)
@@ -83,6 +91,22 @@ public class Movement : MonoBehaviour
             rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
             playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
+        }
+    }
+
+    IEnumerator AntiGravityCycle()
+    {
+        yield return new WaitForSeconds(10f); // Initial delay before anti-gravity starts
+
+        while (true)
+        {
+            // Enable anti-gravity
+            isAntiGravity = true;
+            yield return new WaitForSeconds(5f); // Anti-gravity duration (player stays in air longer)
+
+            // Disable anti-gravity
+            isAntiGravity = false;
+            yield return new WaitForSeconds(10f); // Normal gravity duration
         }
     }
 }
