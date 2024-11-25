@@ -4,6 +4,7 @@ public class Weapon : MonoBehaviour
 {
     public GameObject projectilePrefab; // Reference to the projectile prefab
     public Transform firePoint; // Point where the projectile is spawned
+    public AudioSource audioSource; // Reference to the AudioSource component
 
     void Update()
     {
@@ -25,5 +26,15 @@ public class Weapon : MonoBehaviour
         // Instantiate the projectile at the fire point's position and rotation
         GameObject projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
         Debug.Log("Projectile fired!");
+
+        // Play the sound effect
+        if (audioSource != null)
+        {
+            audioSource.Play();
+        }
+        else
+        {
+            Debug.LogWarning("AudioSource not assigned in Weapon script!");
+        }
     }
 }
