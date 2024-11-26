@@ -9133,6 +9133,14 @@ PrefabInstance:
       propertyPath: Loop
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5243128309132368464, guid: 9c0a6df65fcfba243abb2cf9260b869f, type: 3}
+      propertyPath: m_Pitch
+      value: 0.49
+      objectReference: {fileID: 0}
+    - target: {fileID: 5243128309132368464, guid: 9c0a6df65fcfba243abb2cf9260b869f, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: c2c392d4ec07d40528432c3bda4bc466, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c0a6df65fcfba243abb2cf9260b869f, type: 3}
 --- !u!1 &836832671
