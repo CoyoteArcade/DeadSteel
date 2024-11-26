@@ -1,36 +1,71 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class EnemyHealth : MonoBehaviour
 {
-    public int enemyHealth = 100; // Set the initial health of the enemy
+    // Base attributes for the enemy
+    public float baseHealth = 100f;
+    public float baseDamage = 10f;
 
-    // Update method to simulate damage for testing purposes
+    // Scaling factors
+    public float timeScalingFactor = 0.05f; // Health increase rate per second
+    public float killScalingFactor = 5f;   // Health increase per kill
+    public int killThreshold = 10;         // Kills needed for a buff
+
+    private float currentHealth;
+    private float currentDamage;
+    private float elapsedTime;
+    private int killCount;
+    private float spawnTime;
+
+    void Start()
+    {
+        spawnTime = Time.time;
+        currentHealth = baseHealth;
+        currentDamage = baseDamage;
+    }
+
     void Update()
     {
-        if (enemyHealth <= 0)
+        elapsedTime = Time.time - spawnTime;
+
+        // Gradually increase health over time
+        float timeBonus = elapsedTime * timeScalingFactor;
+        currentHealth = baseHealth + timeBonus;
+
+        Debug.Log($"Enemy Stats - Health: {currentHealth}, Damage: {currentDamage}");
+    }
+
+    public void TakeDamage(float damage)
+    {
+        currentHealth -= damage;
+
+        Debug.Log($"Enemy took {damage} damage. Current Health: {currentHealth}");
+
+        if (currentHealth <= 0)
         {
-            DestroyEnemy();
+            OnDeath();
         }
     }
 
-    // Method to apply damage to the enemy
-    public void TakeDamage(int damage)
+    private void OnDeath()
     {
-        enemyHealth -= damage;
+        killCount++;
 
-        if (enemyHealth <= 0)
+        // Buff enemies after reaching the kill threshold
+        if (killCount % killThreshold == 0)
         {
-            DestroyEnemy();
+            BuffEnemies();
         }
-    }
 
-    // Method to destroy the enemy when health reaches 0
-    private void DestroyEnemy()
-    {
         Destroy(gameObject);
-        Debug.Log("Enemy destroyed");
+        Debug.Log("Enemy destroyed!");
+    }
+
+    private void BuffEnemies()
+    {
+        baseHealth += killScalingFactor;
+        baseDamage += killScalingFactor * 0.2f; // Damage scales slower than health
+
+        Debug.Log($"Enemies buffed! New Base Health: {baseHealth}, Base Damage: {baseDamage}");
     }
 }
-
