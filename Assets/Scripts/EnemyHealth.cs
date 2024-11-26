@@ -1,67 +1,71 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using CombatSystem;
 
 public class EnemyHealth : MonoBehaviour
 {
     // Base attributes for the enemy
     public float baseHealth = 100f;
     public float baseDamage = 10f;
-    public float baseSpeed = 5f;
 
-    // Scaling rates
-    public float healthIncreaseRate = 0.2f; // Rate of health increase over time
-    public float maxHealthIncrease = 250f;  // Max additional health
-    public float damageIncreaseRate = 0.1f; // Rate of damage increase
-    public float speedIncreaseRate = 0.05f; // Rate of speed increase
+    // Scaling factors
+    public float timeScalingFactor = 0.05f; // Health increase rate per second
+    public float killScalingFactor = 5f;   // Health increase per kill
+    public int killThreshold = 10;         // Kills needed for a buff
 
-    private float elapsedTime;
     private float currentHealth;
     private float currentDamage;
-    private float currentSpeed;
-
+    private float elapsedTime;
+    private int killCount;
     private float spawnTime;
 
     void Start()
     {
-        // Record the spawn time and initialize stats
         spawnTime = Time.time;
         currentHealth = baseHealth;
         currentDamage = baseDamage;
-        currentSpeed = baseSpeed;
     }
 
     void Update()
     {
-        // Calculate elapsed time since spawn
         elapsedTime = Time.time - spawnTime;
 
-        // Dynamically scale stats
-        currentHealth = baseHealth + Mathf.Min(elapsedTime * healthIncreaseRate, maxHealthIncrease);
-        currentDamage = baseDamage + (elapsedTime * damageIncreaseRate);
-        currentSpeed = baseSpeed + (elapsedTime * speedIncreaseRate);
+        // Gradually increase health over time
+        float timeBonus = elapsedTime * timeScalingFactor;
+        currentHealth = baseHealth + timeBonus;
 
-        Debug.Log($"Enemy Stats - Health: {currentHealth}, Damage: {currentDamage}, Speed: {currentSpeed}");
+        Debug.Log($"Enemy Stats - Health: {currentHealth}, Damage: {currentDamage}");
     }
 
     public void TakeDamage(float damage)
     {
-        // Apply damage to the enemy
         currentHealth -= damage;
 
         Debug.Log($"Enemy took {damage} damage. Current Health: {currentHealth}");
 
-        // Destroy enemy if health drops to 0 or below
         if (currentHealth <= 0)
         {
-            DestroyEnemy();
+            OnDeath();
         }
     }
 
-    private void DestroyEnemy()
+    private void OnDeath()
     {
-        Debug.Log("Enemy destroyed!");
+        killCount++;
+
+        // Buff enemies after reaching the kill threshold
+        if (killCount % killThreshold == 0)
+        {
+            BuffEnemies();
+        }
+
         Destroy(gameObject);
+        Debug.Log("Enemy destroyed!");
+    }
+
+    private void BuffEnemies()
+    {
+        baseHealth += killScalingFactor;
+        baseDamage += killScalingFactor * 0.2f; // Damage scales slower than health
+
+        Debug.Log($"Enemies buffed! New Base Health: {baseHealth}, Base Damage: {baseDamage}");
     }
 }
