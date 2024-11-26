@@ -4,8 +4,11 @@ public class Weapon : MonoBehaviour
 {
     public GameObject projectilePrefab; // Reference to the projectile prefab
     public Transform firePoint; // Point where the projectile is spawned
+<<<<<<< Updated upstream
+=======
     public AudioSource audioSource; // Audio for shooting sound
     public GameObject[] weaponPrefabs; // Array of different weapon prefabs (for upgrades)
+    public int[] weaponDamage; // Optional array to set different damage values for each weapon
 
     public float fireRate = 1f; // Default fire rate (seconds between shots)
     private float nextFireTime = 0f; // Tracks when the next shot can be fired
@@ -13,20 +16,13 @@ public class Weapon : MonoBehaviour
     private int killCount = 0; // Tracks number of kills
     private int killsForSwap = 10; // Number of kills needed to swap weapons
     private int currentWeaponIndex = 0; // Tracks which weapon the player currently has
+>>>>>>> Stashed changes
 
     void Update()
     {
-        // Prevent shooting when the game is paused
-        if (Time.timeScale == 0f)
-        {
-            return;
-        }
-
-        // Handle shooting input (only if enough time has passed since the last shot)
-        if (Input.GetButtonDown("Fire1") && Time.time >= nextFireTime)
+        if (Input.GetButtonDown("Fire1"))
         {
             Shoot();
-            nextFireTime = Time.time + fireRate; // Update next fire time based on fire rate
         }
     }
 
@@ -34,22 +30,11 @@ public class Weapon : MonoBehaviour
     {
         // Instantiate the projectile at the fire point's position and rotation
         GameObject projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
-        Debug.Log("Projectile fired!");
-
-        // Play the shooting sound
-        if (audioSource != null)
-        {
-            audioSource.Play();
-        }
-        else
-        {
-            Debug.LogWarning("AudioSource not assigned in Weapon script!");
-        }
-
-        // Track kills after each shot (or wherever you track enemy deaths)
-        OnEnemyKilled();
     }
+}
 
+<<<<<<< Updated upstream
+=======
     // Call this method when an enemy is killed
     public void OnEnemyKilled()
     {
@@ -96,6 +81,12 @@ public class Weapon : MonoBehaviour
                 newWeaponScript.audioSource = audioSource;
             }
 
+            // Optionally, set new damage values based on the weapon level
+            if (weaponDamage.Length > currentWeaponIndex)
+            {
+                newWeapon.GetComponent<Projectile>().damage = weaponDamage[currentWeaponIndex];
+            }
+
             // Log the new weapon being swapped
             Debug.Log("Weapon swapped to: " + newWeapon.name + " with new fire rate: " + fireRate);
         }
@@ -105,3 +96,4 @@ public class Weapon : MonoBehaviour
         }
     }
 }
+>>>>>>> Stashed changes
