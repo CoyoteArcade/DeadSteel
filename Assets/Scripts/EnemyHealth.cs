@@ -5,38 +5,16 @@ using CombatSystem;
 
 public class EnemyHealth : MonoBehaviour
 {
-<<<<<<< Updated upstream
-    // Base stats for the enemy
-=======
-    // Base attributes for the Enemy
->>>>>>> Stashed changes
+    // Base attributes for the enemy
     public float baseHealth = 100f;
     public float baseDamage = 10f;
     public float baseSpeed = 5f;
 
-<<<<<<< Updated upstream
     // Scaling rates
-    public float healthIncreaseRate = 2f;
-    public float damageIncreaseRate = 0.5f;
-    public float speedIncreaseRate = 0.1f;
-
-    private float elapsedTime;
-
-    void Update()
-    {
-        // Update elapsed time
-        elapsedTime = Time.time;
-
-        // Update stats dynamically (not strictly necessary here if only referenced elsewhere)
-        float currentHealth = baseHealth + (elapsedTime * healthIncreaseRate);
-        float currentDamage = baseDamage + (elapsedTime * damageIncreaseRate);
-        float currentSpeed = baseSpeed + (elapsedTime * speedIncreaseRate);
-
-        Debug.Log($"Enemy Stats - Health: {currentHealth}, Damage: {currentDamage}, Speed: {currentSpeed}");
-=======
-    // Scaling rates over time
-    public float healthIncreaseRate = 0.2f; // Slower health increase rate
-    public float maxHealthIncrease = 300f;  // Max health the enemy can reach
+    public float healthIncreaseRate = 0.2f; // Rate of health increase over time
+    public float maxHealthIncrease = 250f;  // Max additional health
+    public float damageIncreaseRate = 0.1f; // Rate of damage increase
+    public float speedIncreaseRate = 0.05f; // Rate of speed increase
 
     private float elapsedTime;
     private float currentHealth;
@@ -56,13 +34,13 @@ public class EnemyHealth : MonoBehaviour
 
     void Update()
     {
-        // Calculate elapsed time since this enemy spawned
+        // Calculate elapsed time since spawn
         elapsedTime = Time.time - spawnTime;
 
-        // Dynamically scale stats, but cap the health increase
+        // Dynamically scale stats
         currentHealth = baseHealth + Mathf.Min(elapsedTime * healthIncreaseRate, maxHealthIncrease);
-        currentDamage = baseDamage + (elapsedTime * 0.1f); // Slow scaling of damage
-        currentSpeed = baseSpeed + (elapsedTime * 0.05f);  // Slow scaling of speed
+        currentDamage = baseDamage + (elapsedTime * damageIncreaseRate);
+        currentSpeed = baseSpeed + (elapsedTime * speedIncreaseRate);
 
         Debug.Log($"Enemy Stats - Health: {currentHealth}, Damage: {currentDamage}, Speed: {currentSpeed}");
     }
@@ -85,6 +63,5 @@ public class EnemyHealth : MonoBehaviour
     {
         Debug.Log("Enemy destroyed!");
         Destroy(gameObject);
->>>>>>> Stashed changes
     }
 }
