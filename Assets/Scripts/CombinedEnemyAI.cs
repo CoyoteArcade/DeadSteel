@@ -37,7 +37,7 @@ public class CombinedEnemyAI : MonoBehaviour
 
     private void Awake()
     {
-        player = GameObject.Find("PlayerObj")?.transform;
+        player = GameObject.Find("Player").transform;
         if (player == null)
             Debug.LogWarning("Player not found in the scene.");
 
