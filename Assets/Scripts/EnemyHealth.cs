@@ -24,6 +24,7 @@ public class EnemyHealth : MonoBehaviour
         currentDamage = baseDamage;
     }
 
+/*
     void Update()
     {
         elapsedTime = Time.time - spawnTime;
@@ -34,7 +35,7 @@ public class EnemyHealth : MonoBehaviour
 
         Debug.Log($"Enemy Stats - Health: {currentHealth}, Damage: {currentDamage}");
     }
-
+*/
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;

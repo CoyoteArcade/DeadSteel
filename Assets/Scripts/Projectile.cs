@@ -3,7 +3,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     public float speed = 40f;   // Speed of the projectile
-    public int damage = 50;     // Damage dealt by the projectile
+    public int damage = 10;     // Damage dealt by the projectile
     private static int killCount = 0; // Track number of kills globally
 
     void Update()
