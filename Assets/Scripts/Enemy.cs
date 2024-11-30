@@ -14,11 +14,16 @@ namespace CombatSystem
             // Initialize the enemy's health
             currentHealth = maxHealth;
 
-            // Get the Animator component attached to this enemy
-            animator = GetComponent<Animator>();
+            // Get the Animator component attached to this enemy or its children
+            animator = GetComponentInChildren<Animator>();
             if (animator == null)
             {
-                Debug.LogError("Animator component not found on the enemy.");
+                Debug.LogError($"Animator component not found on '{gameObject.name}' or its children. Please ensure it is properly attached.");
+                DebugHierarchy();
+            }
+            else
+            {
+                Debug.Log($"Animator component found on '{animator.gameObject.name}' for enemy '{gameObject.name}'.");
             }
         }
 
@@ -26,12 +31,12 @@ namespace CombatSystem
         {
             // Reduce health by the damage amount
             currentHealth -= damage;
-            Debug.Log("Enemy takes " + damage + " damage. Current health: " + currentHealth);
+            Debug.Log($"Enemy '{gameObject.name}' takes {damage} damage. Current health: {currentHealth}");
 
             // Check if health is zero or below, then trigger death animation
             if (currentHealth <= 0)
             {
-                Debug.Log("Enemy is dead! Triggering death animation.");
+                Debug.Log($"Enemy '{gameObject.name}' is dead! Triggering death animation.");
                 // Trigger the death animation
                 if (animator != null)
                 {
@@ -47,7 +52,16 @@ namespace CombatSystem
         {
             // Destroy this GameObject after a short delay (to allow the death animation to play)
             Destroy(gameObject, 2f); // Adjust the delay based on the length of your death animation
-            Debug.Log("Enemy destroyed");
+            Debug.Log($"Enemy '{gameObject.name}' destroyed.");
+        }
+
+        private void DebugHierarchy()
+        {
+            Debug.Log($"Listing hierarchy for '{gameObject.name}':");
+            foreach (Transform child in transform)
+            {
+                Debug.Log($"Child: {child.name}");
+            }
         }
     }
 }
