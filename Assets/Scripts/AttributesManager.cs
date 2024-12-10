@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AttributesManager : MonoBehaviour
@@ -49,9 +48,48 @@ public class AttributesManager : MonoBehaviour
     // Method to handle death
     private void Die()
     {
-        Debug.Log($"{gameObject.name} has died!");
-        // Add death logic here (e.g., animations, remove from scene)
-        Destroy(gameObject);
+        if (gameObject.name == "Player")
+        {
+            HandlePlayerDeath();
+        }
+        else
+        {
+            HandleEnemyDeath();
+        }
+    }
+
+    // Handle player death
+    private void HandlePlayerDeath()
+    {
+        Debug.Log("Player has died!");
+        // Trigger Game Over UI or respawn logic
+        StartCoroutine(RespawnPlayer());
+    }
+
+    // Handle enemy death
+    private void HandleEnemyDeath()
+    {
+        Debug.Log($"{gameObject.name} (Enemy) has died!");
+        // Play enemy death animation or particle effects here
+        Destroy(gameObject, 1.5f); // Optional delay for death effects
+    }
+
+    // Example coroutine for player respawn
+    private IEnumerator RespawnPlayer()
+    {
+        Debug.Log("Respawning player...");
+        // Hide player or disable controls
+        gameObject.SetActive(false);
+
+        // Wait for respawn time
+        yield return new WaitForSeconds(3f);
+
+        // Reset health and reposition player
+        health = 100; // Default health value
+        transform.position = Vector3.zero; // Example respawn position
+        Debug.Log("Player respawned!");
+
+        // Reactivate player
+        gameObject.SetActive(true);
     }
 }
-
