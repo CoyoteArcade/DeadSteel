@@ -40,7 +40,7 @@ namespace CombatSystem
                 // Trigger the death animation
                 if (animator != null)
                 {
-                    animator.SetTrigger("Die"); // Use the 'Die' trigger to play the death animation
+                    animator.SetTrigger("isDead"); // Use the 'Die' trigger to play the death animation
                 }
 
                 // Optionally, you can delay the destruction of the enemy to allow the animation to play
